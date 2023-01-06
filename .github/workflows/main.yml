@@ -13,7 +13,7 @@ jobs:
               with:
                   repository: 'project-chip/connectedhomeip'
                   ref: 'master'
-                  submodules: 'recursive'          
+                  submodules: 'recursive' 
             - name: checkout ambz2_matter main branch
               uses: actions/checkout@v3
               with:
