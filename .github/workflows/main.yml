@@ -13,13 +13,11 @@ jobs:
               with:
                   repository: 'project-chip/connectedhomeip'
                   ref: 'master'
-                  submodules: 'recursive'
-              
+                  submodules: 'recursive'          
             - name: checkout ambz2_matter main branch
               uses: actions/checkout@v3
               with:
-                  ref: ${{ github.event.pull_request.head.sha }}
-              
+                  ref: ${{ github.event.pull_request.head.sha }} 
               - run: cd connectedhomeip
               - run: source scripts/bootstrap.sh
               - run: source scripts/activate.sh
