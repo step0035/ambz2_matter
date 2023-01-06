@@ -6,6 +6,7 @@
 #include "section_config.h"
 #include "wifi_constants.h"
 #include "wifi/wifi_conf.h"
+#error
 
 extern void ChipTest(void);
 
