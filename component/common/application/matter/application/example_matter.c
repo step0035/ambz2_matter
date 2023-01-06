@@ -7,6 +7,7 @@
 #include "wifi_constants.h"
 #include "wifi/wifi_conf.h"
 
+// testing comments
 extern void ChipTest(void);
 
 static void example_matter_task_thread(void *pvParameters)
