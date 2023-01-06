@@ -23,16 +23,27 @@ jobs:
                   ref: ${{ github.event.pull_request.head.sha }}
                   path: ambz2_matter
               
-            - name: build examples
+            - name: Setup build environment
               run: |
                     echo "Setting up build environment"
                     cd connectedhomeip
                     source scripts/bootstrap.sh
                     source scripts/activate.sh
+                    
+            - name: Build all-clusters-app
                     cd ../ambz2_matter/project/realtek_amebaz2_v0_example/GCC-RELEASE/
                     echo "Building matter libraries"
                     make all_clusters
                     echo "Building firmware image"
                     make is_matter
-                    echo "Build completed"
-              
+                    echo "Build all-clusters-app completed"
+                    make clean_matter
+                    
+            - name: Build lighting-app
+                    cd ../ambz2_matter/project/realtek_amebaz2_v0_example/GCC-RELEASE/
+                    echo "Building matter libraries"
+                    make light
+                    echo "Building firmware image"
+                    make is_matter
+                    echo "Build lighting-app completed"
+                    make clean_matter
