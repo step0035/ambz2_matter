@@ -1,0 +1,29 @@
+name: build ameba matter
+
+on:
+    pull_request:
+    
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: checkout connectedhomeip master branch
+              uses: actions/checkout@v3
+              with:
+                  repository: 'project-chip/connectedhomeip'
+                  ref: 'master'
+                  submodules: 'recursive'
+              
+            - name: checkout ambz2_matter main branch
+              uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
+              
+              - run: cd connectedhomeip
+              - run: source scripts/bootstrap.sh
+              - run: source scripts/activate.sh
+              - run: cd ../ambz2_matter/project/realtek_amebaz2_v0_example/GCC-RELEASE/
+              - run: make all_clusters
+              - run: make is_matter
+              
