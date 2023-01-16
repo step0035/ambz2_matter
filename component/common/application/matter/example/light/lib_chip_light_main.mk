@@ -227,6 +227,11 @@ SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/driver/led_driver.c
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/example/light/example_matter_light.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/example/light/matter_drivers.cpp
 
+# testing, put here, later put back on top
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_node.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_endpoint.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_cluster.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_attribute.cpp
 #lib_version
 VER_C += $(TARGET)_version.c
 
