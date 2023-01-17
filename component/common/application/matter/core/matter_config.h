@@ -283,3 +283,158 @@ typedef struct dimmable_light {
 //     on_off_light_t on_off_light;
 //     dimmable_light_t dimmable_light;
 // } config_t;
+//
+//
+//
+
+
+/* Nullable base for nullable attribute */
+#define AMEBA_MATTER_VAL_NULLANLE_BASE 0x80
+
+/** AMEBA Matter Attribute Value type */
+typedef enum {
+    /** Invalid */
+    AMEBA_MATTER_VAL_TYPE_INVALID = 0,
+    /** Boolean */
+    AMEBA_MATTER_VAL_TYPE_BOOLEAN = 1,
+    /** Integer. Mapped to a 32 bit signed integer */
+    AMEBA_MATTER_VAL_TYPE_INTEGER = 2,
+    /** Floating point number */
+    AMEBA_MATTER_VAL_TYPE_FLOAT = 3,
+    /** Array Eg. [1,2,3] */
+    AMEBA_MATTER_VAL_TYPE_ARRAY = 4,
+    /** Char String Eg. "123" */
+    AMEBA_MATTER_VAL_TYPE_CHAR_STRING = 5,
+    /** Octet String Eg. [0x01, 0x20] */
+    AMEBA_MATTER_VAL_TYPE_OCTET_STRING = 6,
+    /** 8 bit signed integer */
+    AMEBA_MATTER_VAL_TYPE_INT8 = 7,
+    /** 8 bit unsigned integer */
+    AMEBA_MATTER_VAL_TYPE_UINT8 = 8,
+    /** 16 bit signed integer */
+    AMEBA_MATTER_VAL_TYPE_INT16 = 9,
+    /** 16 bit unsigned integer */
+    AMEBA_MATTER_VAL_TYPE_UINT16 = 10,
+    /** 32 bit signed integer */
+    AMEBA_MATTER_VAL_TYPE_INT32 = 11,
+    /** 32 bit unsigned integer */
+    AMEBA_MATTER_VAL_TYPE_UINT32 = 12,
+    /** 64 bit signed integer */
+    AMEBA_MATTER_VAL_TYPE_INT64 = 13,
+    /** 64 bit unsigned integer */
+    AMEBA_MATTER_VAL_TYPE_UINT64 = 14,
+    /** 8 bit enum */
+    AMEBA_MATTER_VAL_TYPE_ENUM8 = 15,
+    /** 8 bit bitmap */
+    AMEBA_MATTER_VAL_TYPE_BITMAP8 = 16,
+    /** 16 bit bitmap */
+    AMEBA_MATTER_VAL_TYPE_BITMAP16 = 17,
+    /** 32 bit bitmap */
+    AMEBA_MATTER_VAL_TYPE_BITMAP32 = 18,
+    /** nullable types **/
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_INTEGER = AMEBA_MATTER_VAL_TYPE_INTEGER + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_FLOAT = AMEBA_MATTER_VAL_TYPE_FLOAT + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_INT8 = AMEBA_MATTER_VAL_TYPE_INT8 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_UINT8 = AMEBA_MATTER_VAL_TYPE_UINT8 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_INT16 = AMEBA_MATTER_VAL_TYPE_INT16 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_UINT16 = AMEBA_MATTER_VAL_TYPE_UINT16 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_INT32 = AMEBA_MATTER_VAL_TYPE_INT32 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_UINT32 = AMEBA_MATTER_VAL_TYPE_UINT32 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_INT64 = AMEBA_MATTER_VAL_TYPE_INT64 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_UINT64 = AMEBA_MATTER_VAL_TYPE_UINT64 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_ENUM8 = AMEBA_MATTER_VAL_TYPE_ENUM8 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_BITMAP8 = AMEBA_MATTER_VAL_TYPE_BITMAP8 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_BITMAP16 = AMEBA_MATTER_VAL_TYPE_BITMAP16 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+    AMEBA_MATTER_VAL_TYPE_NULLABLE_BITMAP32= AMEBA_MATTER_VAL_TYPE_BITMAP32 + AMEBA_MATTER_VAL_NULLANLE_BASE,
+} ameba_matter_val_type_t;
+
+/** AMEBA Matter Value */
+typedef union {
+    /** Boolean */
+    bool _b;
+    /** Integer */
+    int _i;
+    /** Float */
+    float _f;
+    /** 8 bit signed integer */
+    int8_t _i8;
+    /** 8 bit unsigned integer */
+    uint8_t _u8;
+    /** 16 bit signed integer */
+    int16_t _i16;
+    /** 16 bit unsigned integer */
+    uint16_t _u16;
+    /** 32 bit signed integer */
+    int32_t _i32;
+    /** 32 bit unsigned integer */
+    uint32_t _u32;
+    /** 64 bit signed integer */
+    int64_t _i64;
+    /** 64 bit unsigned integer */
+    uint64_t _u64;
+    /** Array */
+    struct {
+        /** Buffer */
+        uint8_t *_b;
+        /** Data size */
+        uint16_t _s;
+        /** Data count */
+        uint16_t _n;
+        /** Total size */
+        uint16_t _t;
+    } _a;
+    /** Pointer */
+    void *_p;
+} ameba_matter_val_t;
+
+/** AMEBA Matter Attribute Value */
+typedef struct {
+    /** Type of Value */
+    ameba_matter_val_type_t type;
+    /** Actual value. Depends on the type */
+    ameba_matter_val_t val;
+} ameba_matter_attr_val_t;
+
+/** AMEBA Matter Attribute Bounds */
+typedef struct ameba_matter_attr_bounds {
+    /** Minimum Value */
+    ameba_matter_attr_val_t min;
+    /** Maximum Value */
+    ameba_matter_attr_val_t max;
+    /** TODO: Step Value might be needed here later */
+} ameba_matter_attr_bounds_t;
+
+/* attribute utils declaration */
+ameba_matter_attr_val_t ameba_matter_invalid(void *val);
+ameba_matter_attr_val_t ameba_matter_bool(bool val);
+ameba_matter_attr_val_t ameba_matter_int(int val);
+ameba_matter_attr_val_t ameba_matter_nullable_int(nullable<int> val);
+ameba_matter_attr_val_t ameba_matter_float(float val);
+ameba_matter_attr_val_t ameba_matter_nullable_float(nullable<float> val);
+ameba_matter_attr_val_t ameba_matter_int8(int8_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_int8(nullable<int8_t> val);
+ameba_matter_attr_val_t ameba_matter_uint8(uint8_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_uint8(nullable<uint8_t> val);
+ameba_matter_attr_val_t ameba_matter_int16(int16_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_int16(nullable<int16_t> val);
+ameba_matter_attr_val_t ameba_matter_uint16(uint16_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_uint16(nullable<uint16_t> val);
+ameba_matter_attr_val_t ameba_matter_int32(int32_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_int32(nullable<int32_t> val);
+ameba_matter_attr_val_t ameba_matter_uint32(uint32_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_uint32(nullable<uint32_t> val);
+ameba_matter_attr_val_t ameba_matter_int64(int64_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_int64(nullable<int64_t> val);
+ameba_matter_attr_val_t ameba_matter_uint64(uint64_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_uint64(nullable<uint64_t> val);
+ameba_matter_attr_val_t ameba_matter_enum8(uint8_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_enum8(nullable<uint8_t> val);
+ameba_matter_attr_val_t ameba_matter_bitmap8(uint8_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_bitmap8(nullable<uint8_t> val);
+ameba_matter_attr_val_t ameba_matter_bitmap16(uint16_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_bitmap16(nullable<uint16_t> val);
+ameba_matter_attr_val_t ameba_matter_bitmap32(uint32_t val);
+ameba_matter_attr_val_t ameba_matter_nullable_bitmap32(nullable<uint32_t> val);
+ameba_matter_attr_val_t ameba_matter_char_str(char *val, uint16_t data_size);
+ameba_matter_attr_val_t ameba_matter_octet_str(uint8_t *val, uint16_t data_size);
+ameba_matter_attr_val_t ameba_matter_array(uint8_t *val, uint16_t data_size, uint16_t count);

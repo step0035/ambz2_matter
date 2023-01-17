@@ -119,6 +119,12 @@ static void example_matter_light_task(void *pvParameters)
         while(test_cluster)
         {
             printf("\tCluster ID: %d\n", test_cluster->cluster_id);
+            Attribute *test_attribute = test_cluster->attribute_list;
+            while(test_attribute)
+            {
+                printf("\t\tAttribute ID: %d\n", test_attribute->attribute_id);
+                test_attribute = test_attribute->get_next();
+            }
             test_cluster = test_cluster->get_next();
         }
         test_endpoint = test_endpoint->get_next(); 

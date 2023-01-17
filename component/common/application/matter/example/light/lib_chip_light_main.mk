@@ -232,6 +232,7 @@ SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_node.cp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_endpoint.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_cluster.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_attribute.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_config.cpp
 #lib_version
 VER_C += $(TARGET)_version.c
 
