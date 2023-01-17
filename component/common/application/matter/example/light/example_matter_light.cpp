@@ -12,6 +12,7 @@
 #include "matter_interaction.h"
 #include "matter_config.h"
 #include "matter_node.h"
+#include "matter_flags.h"
 
 void configure_endpoint_config(uint16_t device_type, config_t *config)
 {
@@ -99,12 +100,12 @@ static void example_matter_light_task(void *pvParameters)
     /* Endpoint creation */
     config_t root_node_config;
     configure_endpoint_config(AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID, &root_node_config);
-    Endpoint *root_node = new Endpoint(root_node_config);
+    Endpoint *root_node = new Endpoint(root_node_config, ENDPOINT_FLAG_NONE);
 
     config_t light_config;
     configure_endpoint_config(AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID, &light_config);
     light_config.on_off.onoff = true;
-    Endpoint *on_off_light = new Endpoint(light_config);
+    Endpoint *on_off_light = new Endpoint(light_config, ENDPOINT_FLAG_NONE);
 
     /* Add endpoints */
     node->add_endpoint(root_node);

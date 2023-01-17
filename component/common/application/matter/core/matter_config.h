@@ -49,20 +49,6 @@
 #define AMEBA_MATTER_WINDOW_COVERING_DEVICE_TYPE_ID 0x0202
 #define AMEBA_MATTER_WINDOW_COVERING_DEVICE_TYPE_VERSION 2
 
-#define AMEBA_MATTER_IDENTIFY_CLUSTER_ID 0x0003
-#define AMEBA_MATTER_GROUPS_CLUSTER_ID 0x0004
-#define AMEBA_MATTER_SCENES_CLUSTER_ID 0x0005
-#define AMEBA_MATTER_ON_OFF_CLUSTER_ID 0x0006
-#define AMEBA_MATTER_LEVEL_CONTROL_CLUSTER_ID 0x0008
-#define AMEBA_MATTER_BASIC_INFORMATION_CLUSTER_ID 0x0028
-#define AMEBA_MATTER_GENERAL_COMMISSIONING_CLUSTER_ID 0x0030
-#define AMEBA_MATTER_NETWORK_COMMISSIONING_CLUSTER_ID 0x0031
-#define AMEBA_MATTER_GENERAL_DIAGNOSTICS_CLUSTER_ID 0x0033
-#define AMEBA_MATTER_DIAGNOSTICS_NETWORK_THREAD_CLUSTER_ID 0x0035
-#define AMEBA_MATTER_DIAGNOSTICS_NETWORK_WIFI_CLUSTER_ID 0x0036
-#define AMEBA_MATTER_ADMINISTRATOR_COMMISSIONING_CLUSTER_ID 0x003C
-#define AMEBA_MATTER_OPERATIONAL_CREDENTIALS_CLUSTER_ID 0x003E
-
 template <typename T>
 class nullable {
 
@@ -142,6 +128,7 @@ private:
 /* Clusters config */
 typedef struct basic_information {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     char node_label[32];
     basic_information() : cluster_revision(1), node_label("\0") {}
@@ -149,6 +136,7 @@ typedef struct basic_information {
 
 typedef struct general_commissioning {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     uint64_t breadcrumb;
     general_commissioning() : cluster_revision(1), breadcrumb(0) {}
@@ -156,42 +144,49 @@ typedef struct general_commissioning {
 
 typedef struct network_commissioning {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     network_commissioning() : cluster_revision(1) {}
 } network_commissioning_t;
 
 typedef struct general_diagnostics {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     general_diagnostics() : cluster_revision(1) {}
 } general_diagnostics_t;
 
 typedef struct administrator_commissioning {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     administrator_commissioning() : cluster_revision(1) {}
 } administrator_commissioning_t;
 
 typedef struct operational_credentials {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     operational_credentials() : cluster_revision(1) {}
 } operational_credentials_t;
 
 typedef struct diagnostics_network_thread {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     diagnostics_network_thread() : cluster_revision(1) {}
 } diagnostics_network_thread_t;
 
 typedef struct diagnostics_network_wifi {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     diagnostics_network_wifi() : cluster_revision(1) {}
 } diagnostics_network_wifi_t;
 
 typedef struct identify {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     uint16_t identify_time;
     uint8_t identify_type;
@@ -200,6 +195,7 @@ typedef struct identify {
 
 typedef struct groups {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     uint8_t group_name_support;
     groups() : cluster_revision(1), group_name_support(0) {}
@@ -207,6 +203,7 @@ typedef struct groups {
 
 typedef struct scenes {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     uint8_t scene_count;
     uint8_t current_scene;
@@ -218,6 +215,7 @@ typedef struct scenes {
 
 typedef struct on_off {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     bool onoff;
     // feature::lighting::config_t lighting;
@@ -226,6 +224,7 @@ typedef struct on_off {
 
 typedef struct level_control {
     bool enabled = false;
+    bool server = true;
     uint16_t cluster_revision;
     nullable<uint8_t> current_level;
     nullable<uint8_t> on_level;
@@ -276,16 +275,6 @@ typedef struct dimmable_light {
     on_off_t on_off;
     level_control_t level_control;
 } dimmable_light_t;
-
-/* Endpoint config wrapper */
-// typedef struct config {
-//     root_node_t root_node;
-//     on_off_light_t on_off_light;
-//     dimmable_light_t dimmable_light;
-// } config_t;
-//
-//
-//
 
 
 /* Nullable base for nullable attribute */

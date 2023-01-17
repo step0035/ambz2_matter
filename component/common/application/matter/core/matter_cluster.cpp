@@ -2,12 +2,14 @@
 
 using namespace chip::app::Clusters;
 
-Cluster::Cluster(config_t config, uint32_t _cluster_id)
+Cluster::Cluster(config_t config, uint32_t _cluster_id, uint16_t cluster_flags)
 {
-    if (_cluster_id == AMEBA_MATTER_IDENTIFY_CLUSTER_ID)
+    flags = cluster_flags;
+
+    if (_cluster_id == Identify::Id)
     {
         printf("identify cluster created\n");
-        cluster_id = AMEBA_MATTER_IDENTIFY_CLUSTER_ID;
+        cluster_id = Identify::Id;
         identify_t identify_config = config.identify;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(identify_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -20,10 +22,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(identify_type);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_GROUPS_CLUSTER_ID)
+    else if (_cluster_id == Groups::Id)
     {
         printf("groups cluster created\n");
-        cluster_id = AMEBA_MATTER_GROUPS_CLUSTER_ID;
+        cluster_id = Groups::Id;
         groups_t groups_config = config.groups;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(groups_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -33,10 +35,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(group_name_support);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_SCENES_CLUSTER_ID)
+    else if (_cluster_id == Scenes::Id)
     {
         printf("scenes cluster created\n");
-        cluster_id = AMEBA_MATTER_SCENES_CLUSTER_ID;
+        cluster_id = Scenes::Id;
         scenes_t scenes_config = config.scenes;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(scenes_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -58,10 +60,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(scene_name_support);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_ON_OFF_CLUSTER_ID)
+    else if (_cluster_id == OnOff::Id)
     {
         printf("on_off cluster created\n");
-        cluster_id = AMEBA_MATTER_ON_OFF_CLUSTER_ID;
+        cluster_id = OnOff::Id;
         on_off_t on_off_config = config.on_off;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(on_off_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -71,10 +73,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(onoff);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_LEVEL_CONTROL_CLUSTER_ID)
+    else if (_cluster_id == LevelControl::Id)
     {
         printf("level_control cluster created\n");
-        cluster_id = AMEBA_MATTER_LEVEL_CONTROL_CLUSTER_ID;
+        cluster_id = LevelControl::Id;
         level_control_t level_control_config = config.level_control;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(level_control_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -90,10 +92,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(options);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_BASIC_INFORMATION_CLUSTER_ID)
+    else if (_cluster_id == BasicInformation::Id)
     {
         printf("basic_information cluster created\n");
-        cluster_id = AMEBA_MATTER_BASIC_INFORMATION_CLUSTER_ID;
+        cluster_id = BasicInformation::Id;
         basic_information_t basic_information_config = config.basic_information;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(basic_information_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -103,10 +105,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(node_label);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_GENERAL_COMMISSIONING_CLUSTER_ID)
+    else if (_cluster_id == GeneralCommissioning::Id)
     {
         printf("general_commissioning cluster created\n");
-        cluster_id = AMEBA_MATTER_GENERAL_COMMISSIONING_CLUSTER_ID;
+        cluster_id = GeneralCommissioning::Id;
         general_commissioning_t general_commissioning_config = config.general_commissioning;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(general_commissioning_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -116,20 +118,20 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
         add_attribute(breadcrumb);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_NETWORK_COMMISSIONING_CLUSTER_ID)
+    else if (_cluster_id == NetworkCommissioning::Id)
     {
         printf("network_commissioning cluster created\n");
-        cluster_id = AMEBA_MATTER_NETWORK_COMMISSIONING_CLUSTER_ID;
+        cluster_id = NetworkCommissioning::Id;
         network_commissioning_t network_commissioning_config = config.network_commissioning;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(network_commissioning_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
         add_attribute(cluster_revision);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_GENERAL_DIAGNOSTICS_CLUSTER_ID)
+    else if (_cluster_id == GeneralDiagnostics::Id)
     {
         printf("general_diagnostics cluster created\n");
-        cluster_id = AMEBA_MATTER_GENERAL_DIAGNOSTICS_CLUSTER_ID;
+        cluster_id = GeneralDiagnostics::Id;
         general_diagnostics_t general_diagnostics_config = config.general_diagnostics;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(general_diagnostics_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -137,10 +139,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
     }
 
 #if 0 // thread enabled
-    else if (_cluster_id == AMEBA_MATTER_DIAGNOSTICS_NETWORK_THREAD_CLUSTER_ID)
+    else if (_cluster_id == ThreadNetworkDiagnostics::Id)
     {
         printf("diagnostics_network_thread cluster created\n");
-        cluster_id = AMEBA_MATTER_DIAGNOSTICS_NETWORK_THREAD_CLUSTER_ID;
+        cluster_id = ThreadNetworkDiagnostics::Id;
         diagnostics_network_thread_t diagnostics_network_thread_config = config.diagnostics_network_thread;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(diagnostics_network_thread_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -149,10 +151,10 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
 #endif
 
 #if 1 // wifi enabled
-    else if (_cluster_id == AMEBA_MATTER_DIAGNOSTICS_NETWORK_WIFI_CLUSTER_ID)
+    else if (_cluster_id == WiFiNetworkDiagnostics::Id)
     {
         printf("diagnostics_network_wifi cluster created\n");
-        cluster_id = AMEBA_MATTER_DIAGNOSTICS_NETWORK_WIFI_CLUSTER_ID;
+        cluster_id = WiFiNetworkDiagnostics::Id;
         diagnostics_network_wifi_t diagnostics_network_wifi_config = config.diagnostics_network_wifi;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(diagnostics_network_wifi_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
@@ -160,20 +162,20 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id)
     }
 #endif
 
-    else if (_cluster_id == AMEBA_MATTER_ADMINISTRATOR_COMMISSIONING_CLUSTER_ID)
+    else if (_cluster_id == AdministratorCommissioning::Id)
     {
         printf("administrator_commissioning cluster created\n");
-        cluster_id = AMEBA_MATTER_ADMINISTRATOR_COMMISSIONING_CLUSTER_ID;
+        cluster_id = AdministratorCommissioning::Id;
         administrator_commissioning_t administrator_commissioning_config = config.administrator_commissioning;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(administrator_commissioning_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);
         add_attribute(cluster_revision);
     }
 
-    else if (_cluster_id == AMEBA_MATTER_OPERATIONAL_CREDENTIALS_CLUSTER_ID)
+    else if (_cluster_id == OperationalCredentials::Id)
     {
         printf("operational_credentials cluster created\n");
-        cluster_id = AMEBA_MATTER_OPERATIONAL_CREDENTIALS_CLUSTER_ID;
+        cluster_id = OperationalCredentials::Id;
         operational_credentials_t operational_credentials_config = config.operational_credentials;
 
         Attribute *cluster_revision = new Attribute(ameba_matter_uint16(operational_credentials_config.cluster_revision), Globals::Attributes::ClusterRevision::Id);

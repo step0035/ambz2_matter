@@ -21,7 +21,7 @@
 class Endpoint
 {
 public:
-    Endpoint(config_t config); // create
+    Endpoint(config_t config, uint16_t endpoint_flags); // create
     // ~ Endpoint(); // destroy
     Endpoint *get_next(void);
     void set_next(Endpoint *endpoint);

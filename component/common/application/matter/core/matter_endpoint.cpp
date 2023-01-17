@@ -1,74 +1,79 @@
 #include "matter_endpoint.h"
+#include "matter_flags.h"
 
-Endpoint::Endpoint(config_t config)
+using namespace chip::app::Clusters;
+
+Endpoint::Endpoint(config_t config, uint16_t endpoint_flags)
 {
+    flags = endpoint_flags;
+
     if (config.identify.enabled)
     {
-        Cluster *identify = new Cluster(config, AMEBA_MATTER_IDENTIFY_CLUSTER_ID);
+        Cluster *identify = new Cluster(config, Identify::Id, (config.identify.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(identify);
     }
     if (config.groups.enabled)
     {
-        Cluster *groups = new Cluster(config, AMEBA_MATTER_GROUPS_CLUSTER_ID);
+        Cluster *groups = new Cluster(config, Groups::Id, (config.groups.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(groups);
     }
     if (config.scenes.enabled)
     {
-        Cluster *scenes = new Cluster(config, AMEBA_MATTER_SCENES_CLUSTER_ID);
+        Cluster *scenes = new Cluster(config, Scenes::Id, (config.scenes.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(scenes);
     }
     if (config.on_off.enabled)
     {
-        Cluster *on_off = new Cluster(config, AMEBA_MATTER_ON_OFF_CLUSTER_ID);
+        Cluster *on_off = new Cluster(config, OnOff::Id, (config.on_off.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(on_off);
     }
     if (config.level_control.enabled)
     {
-        Cluster *level_control = new Cluster(config, AMEBA_MATTER_LEVEL_CONTROL_CLUSTER_ID);
+        Cluster *level_control = new Cluster(config, LevelControl::Id, (config.level_control.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(level_control);
     }
     if (config.basic_information.enabled)
     {
-        Cluster *basic_information = new Cluster(config, AMEBA_MATTER_BASIC_INFORMATION_CLUSTER_ID);
+        Cluster *basic_information = new Cluster(config, BasicInformation::Id, (config.basic_information.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(basic_information);
     }
     if (config.general_commissioning.enabled)
     {
-        Cluster *general_commissioning = new Cluster(config, AMEBA_MATTER_GENERAL_COMMISSIONING_CLUSTER_ID);
+        Cluster *general_commissioning = new Cluster(config, GeneralCommissioning::Id, (config.general_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(general_commissioning);
     }
     if (config.network_commissioning.enabled)
     {
-        Cluster *network_commissioning = new Cluster(config, AMEBA_MATTER_NETWORK_COMMISSIONING_CLUSTER_ID);
+        Cluster *network_commissioning = new Cluster(config, NetworkCommissioning::Id, (config.network_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(network_commissioning);
     }
     if (config.general_diagnostics.enabled)
     {
-        Cluster *general_diagnostics = new Cluster(config, AMEBA_MATTER_GENERAL_DIAGNOSTICS_CLUSTER_ID);
+        Cluster *general_diagnostics = new Cluster(config, GeneralDiagnostics::Id, (config.general_diagnostics.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(general_diagnostics);
     }
 #if 0 // thread enabled
     if (config.diagnostics_network_thread.enabled)
     {
-        Cluster *diagnostics_network_thread = new Cluster(config, AMEBA_MATTER_DIAGNOSTICS_NETWORK_THREAD_CLUSTER_ID);
+        Cluster *diagnostics_network_thread = new Cluster(config, ThreadNetworkDiagnostics::Id, (config.diagnostics_network_thread.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(diagnostics_network_thread);
     }
 #endif
 #if 1 // wifi enabled
     if (config.diagnostics_network_wifi.enabled)
     {
-        Cluster *diagnostics_network_wifi = new Cluster(config, AMEBA_MATTER_DIAGNOSTICS_NETWORK_WIFI_CLUSTER_ID);
+        Cluster *diagnostics_network_wifi = new Cluster(config, WiFiNetworkDiagnostics::Id, (config.diagnostics_network_wifi.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(diagnostics_network_wifi);
     }
 #endif
     if (config.administrator_commissioning.enabled)
     {
-        Cluster *administrator_commissioning = new Cluster(config, AMEBA_MATTER_ADMINISTRATOR_COMMISSIONING_CLUSTER_ID);
+        Cluster *administrator_commissioning = new Cluster(config, AdministratorCommissioning::Id, (config.administrator_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(administrator_commissioning);
     }
     if (config.operational_credentials.enabled)
     {
-        Cluster *operational_credentials = new Cluster(config, AMEBA_MATTER_OPERATIONAL_CREDENTIALS_CLUSTER_ID);
+        Cluster *operational_credentials = new Cluster(config, OperationalCredentials::Id, (config.operational_credentials.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(operational_credentials);
     }
 }
