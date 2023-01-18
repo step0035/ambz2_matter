@@ -1,11 +1,11 @@
 #include "matter_attribute.h"
 
-Attribute::Attribute(ameba_matter_attr_val_t attribute_value, uint32_t _attribute_id)
+Attribute::Attribute(ameba_matter_attr_val_t attribute_value, uint32_t _attribute_id, uint16_t attribute_flags)
 {
     // TODO: add bounds, kvs
     val = attribute_value;
     attribute_id = _attribute_id;
-    // flags = attribute_flags;
+    flags = attribute_flags;
 }
 
 Attribute *Attribute::get_next()

@@ -106,3 +106,17 @@ void Endpoint::add_cluster(Cluster *cluster)
         previous_cluster->set_next(cluster);
     }
 }
+
+int8_t Endpoint::add_device_type(uint32_t device_type_id, uint8_t device_type_version)
+{
+    if (device_type_count >= AMEBA_MATTER_MAX_DEVICE_TYPE_COUNT)
+    {
+        printf("Max device type count reached\n");
+        return -1;
+    }
+
+    device_type_ids[device_type_count] = device_type_id;
+    device_type_versions[device_type_count] = device_type_version;
+    device_type_count++;
+    return 0;
+}

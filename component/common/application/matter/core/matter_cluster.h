@@ -4,6 +4,9 @@
 #include "matter_attribute.h"
 #include "matter_config.h"
 
+typedef void (*plugin_server_init_callback_t)();
+typedef void (*plugin_client_init_callback_t)();
+
 class Cluster
 {
 public:
@@ -16,4 +19,10 @@ public:
     Cluster *next = NULL;
     Attribute *attribute_list = NULL;
     uint16_t flags;
+    void set_plugin_server_init_callback(plugin_server_init_callback_t callback);
+    void set_plugin_client_init_callback(plugin_client_init_callback_t callback);
+    plugin_server_init_callback_t get_plugin_server_init_callback(void);
+    plugin_client_init_callback_t get_plugin_client_init_callback(void);
+    plugin_server_init_callback_t plugin_server_init_callback;
+    plugin_client_init_callback_t plugin_client_init_callback;
 };

@@ -101,11 +101,19 @@ static void example_matter_light_task(void *pvParameters)
     config_t root_node_config;
     configure_endpoint_config(AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID, &root_node_config);
     Endpoint *root_node = new Endpoint(root_node_config, ENDPOINT_FLAG_NONE);
+    if (root_node->add_device_type(AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID, AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_VERSION) != 0)
+    {
+        printf("Failed to add device type\n");
+    }
 
     config_t light_config;
     configure_endpoint_config(AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID, &light_config);
     light_config.on_off.onoff = true;
     Endpoint *on_off_light = new Endpoint(light_config, ENDPOINT_FLAG_NONE);
+    if (on_off_light->add_device_type(AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID, AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_VERSION) != 0)
+    {
+        printf("Failed to add device type\n");
+    }
 
     /* Add endpoints */
     node->add_endpoint(root_node);

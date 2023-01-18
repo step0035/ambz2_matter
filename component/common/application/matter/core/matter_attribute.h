@@ -7,7 +7,7 @@
 class Attribute
 {
 public:
-    Attribute(ameba_matter_attr_val_t attribute_value, uint32_t _attribute_id); // create
+    Attribute(ameba_matter_attr_val_t attribute_value, uint32_t _attribute_id, uint16_t attribute_flags); // create
     ~ Attribute(); // destroy
     uint32_t attribute_id;
     uint16_t flags;
