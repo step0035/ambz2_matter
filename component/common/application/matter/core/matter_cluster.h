@@ -6,6 +6,7 @@
 
 typedef void (*plugin_server_init_callback_t)();
 typedef void (*plugin_client_init_callback_t)();
+void plugin_init_callback_common(void);
 
 class Cluster
 {

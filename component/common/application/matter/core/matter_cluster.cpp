@@ -1,7 +1,46 @@
+#include "matter_node.h"
+#include "matter_endpoint.h"
 #include "matter_cluster.h"
 #include "matter_flags.h"
+#include <app/PluginApplicationCallbacks.h>
 
 using namespace chip::app::Clusters;
+
+extern Node *node;
+
+void plugin_init_callback_common()
+{
+    printf("Cluster plugin init common callback\n");
+    if (!node) {
+        /* Skip plugin_init_callback_common when ameba matter data model is not used */
+        return;
+    }
+    Endpoint *endpoint = node->endpoint_list;
+    while (endpoint)
+    {
+        Cluster *cluster = endpoint->cluster_list;
+        while (cluster)
+        {
+            /* Plugin server init callback */
+            plugin_server_init_callback_t plugin_server_init_callback = cluster->get_plugin_server_init_callback();
+            if (plugin_server_init_callback)
+            {
+                plugin_server_init_callback();
+            }
+
+            /* Plugin client init callback */
+            plugin_client_init_callback_t plugin_client_init_callback = cluster->get_plugin_client_init_callback();
+            if (plugin_client_init_callback) {
+                plugin_client_init_callback();
+            }
+
+            /* next cluster */
+            cluster = cluster->get_next();
+        }
+        /* next endpoint */
+        endpoint = endpoint->get_next();
+    }
+}
 
 Cluster::Cluster(config_t config, uint32_t _cluster_id, uint16_t cluster_flags)
 {
