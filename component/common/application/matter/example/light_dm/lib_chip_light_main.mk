@@ -7,7 +7,7 @@ SDKROOTDIR := $(BASEDIR)/../../../../../..
 AMEBAZ2_TOOLDIR	= $(SDKROOTDIR)/component/soc/realtek/8710c/misc/iar_utility
 CHIPDIR = $(SDKROOTDIR)/third_party/connectedhomeip
 OUTPUT_DIR = $(CHIPDIR)/examples/lighting-app/ameba/build/chip
-CODEGENDIR = $(OUTPUT_DIR)/codegen
+CODEGENDIR = $(SDKROOTDIR)/tools/matter/codegen_helpers/gen
 
 OS := $(shell uname)
 
@@ -154,14 +154,14 @@ INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/common/mbedtls
 INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/common/port
 INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/core
 INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/driver
-INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/example/light
+INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/example/light_dm
 
 # CHIP Include folder list
 # -------------------------------------------------------------------
 INCLUDES += -I$(CHIPDIR)/zzz_generated/app-common
-INCLUDES += -I$(CHIPDIR)/zzz_generated/lighting-app
-INCLUDES += -I$(CHIPDIR)/zzz_generated/lighting-app/zap-generated
-INCLUDES += -I$(CHIPDIR)/examples/lighting-app/lighting-common
+# INCLUDES += -I$(CHIPDIR)/zzz_generated/lighting-app
+# INCLUDES += -I$(CHIPDIR)/zzz_generated/lighting-app/zap-generated
+# INCLUDES += -I$(CHIPDIR)/examples/lighting-app/lighting-common
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/main/include
 INCLUDES += -I$(CHIPDIR)/examples/lighting-app/ameba/build/chip/gen/include
 INCLUDES += -I$(CHIPDIR)/examples/platform/ameba
@@ -176,7 +176,9 @@ INCLUDES += -I$(CHIPDIR)/src/app/server
 INCLUDES += -I$(CHIPDIR)/src/app/clusters/bindings
 INCLUDES += -I$(CHIPDIR)/third_party/nlio/repo/include
 INCLUDES += -I$(CHIPDIR)/third_party/nlunit-test/repo/src
-INCLUDES += -I$(CODEGENDIR)
+INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/core/zap-common
+INCLUDES += -I$(SDKROOTDIR)/component/common/application/matter/example/light_dm
+# INCLUDES += -I$(CODEGENDIR)
 
 # Source file list
 # -------------------------------------------------------------------
@@ -209,13 +211,84 @@ SRC_CPP += $(CHIPDIR)/src/app/util/privilege-storage.cpp
 
 SRC_CPP += $(CHIPDIR)/src/app/reporting/Engine.cpp
 
-SRC_CPP += $(shell cat $(CODEGENDIR)/cluster-file.txt)
+# SRC_CPP += $(shell cat $(CODEGENDIR)/cluster-file.txt)
+SRC_CPP += $(CHIPDIR)/src/app/clusters/access-control-server/access-control-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/account-login-server/account-login-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/administrator-commissioning-server/administrator-commissioning-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/application-basic-server/application-basic-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/application-launcher-server/application-launcher-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/audio-output-server/audio-output-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/barrier-control-server/barrier-control-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/basic-information/basic-information.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/BindingManager.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/PendingNotificationMap.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bindings/bindings.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/bridged-device-basic-information-server/bridged-device-basic-information-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/channel-server/channel-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/client-monitoring-server/client-monitoring-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/color-control-server/color-control-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/content-launch-server/content-launch-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/descriptor/descriptor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/diagnostic-logs-server/diagnostic-logs-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/door-lock-server/door-lock-server-callback.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/door-lock-server/door-lock-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ethernet-network-diagnostics-server/ethernet-network-diagnostics-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/fan-control-server/fan-control-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/fault-injection-server/fault-injection-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/fixed-label-server/fixed-label-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/general-commissioning-server/general-commissioning-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/general-diagnostics-server/GenericFaultTestEventTriggerDelegate.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/general-diagnostics-server/general-diagnostics-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/group-key-mgmt-server/group-key-mgmt-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-client/groups-client.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/groups-server/groups-server.cpp
+# SRC_CPP += $(CHIPDIR)/src/app/clusters/ias-zone-client/ias-zone-client.cpp
+# SRC_CPP += $(CHIPDIR)/src/app/clusters/ias-zone-server/ias-zone-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/identify-client/identify-client.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/identify-server/identify-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/keypad-input-server/keypad-input-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/level-control/level-control.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/localization-configuration-server/localization-configuration-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/low-power-server/low-power-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/media-input-server/media-input-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/media-playback-server/media-playback-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/mode-select-server/mode-select-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/network-commissioning/network-commissioning.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/occupancy-sensor-server/occupancy-sensor-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/on-off-server/on-off-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/operational-credentials-server/operational-credentials-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-provider/ota-provider.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestor.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestorDriver.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/DefaultOTARequestorStorage.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ExtendedOTARequestorDriver.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/ota-requestor/ota-requestor-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/power-source-configuration-server/power-source-configuration-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/power-source-server/power-source-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/pump-configuration-and-control-client/pump-configuration-and-control-client.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/pump-configuration-and-control-server/pump-configuration-and-control-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/scenes-client/scenes-client.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/scenes/scenes.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/software-diagnostics-server/software-diagnostics-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/switch-server/switch-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/target-navigator-server/target-navigator-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/test-cluster-server/test-cluster-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/thermostat-client/thermostat-client.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/thermostat-server/thermostat-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/thermostat-user-interface-configuration-server/thermostat-user-interface-configuration-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/thread-network-diagnostics-server/thread-network-diagnostics-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/time-format-localization-server/time-format-localization-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/user-label-server/user-label-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/wake-on-lan-server/wake-on-lan-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/wifi-network-diagnostics-server/wifi-network-diagnostics-server.cpp
+SRC_CPP += $(CHIPDIR)/src/app/clusters/window-covering-server/window-covering-server.cpp
 
-SRC_CPP += $(CODEGENDIR)/app/callback-stub.cpp
-SRC_CPP += $(CODEGENDIR)/zap-generated/IMClusterCommandHandler.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/zap-common/app/callback-stub.cpp
 
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
+
+SRC_CPP += $(CHIPDIR)/zzz_generated/lighting-app/zap-generated/IMClusterCommandHandler.cpp
 
 SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
 
@@ -224,9 +297,15 @@ SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_core.cp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_interaction.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_ota.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/driver/led_driver.cpp
-SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/example/light/example_matter_light.cpp
-SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/example/light/matter_drivers.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/example/light_dm/example_matter_light.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/example/light_dm/matter_drivers.cpp
 
+# testing, put here, later put back on top
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_node.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_endpoint.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_cluster.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_attribute.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_config.cpp
 #lib_version
 VER_C += $(TARGET)_version.c
 
