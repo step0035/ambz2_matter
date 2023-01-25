@@ -26,6 +26,7 @@ public:
     // ~ Endpoint(); // destroy
     Endpoint *get_next(void);
     void set_next(Endpoint *endpoint);
+    Cluster *get_cluster_by_id(uint32_t cluster_id);
     void add_cluster(Cluster *cluster);
     int8_t add_device_type(uint32_t device_type_id, uint8_t device_type_version);
     uint16_t endpoint_id;

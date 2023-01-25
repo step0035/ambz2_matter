@@ -288,8 +288,6 @@ SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/zap-common/app
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/attributes/Accessors.cpp
 SRC_CPP += $(CHIPDIR)/zzz_generated/app-common/app-common/zap-generated/cluster-objects.cpp
 
-SRC_CPP += $(CHIPDIR)/zzz_generated/lighting-app/zap-generated/IMClusterCommandHandler.cpp
-
 SRC_CPP += $(CHIPDIR)/examples/providers/DeviceInfoProviderImpl.cpp
 
 # Custom light-app src files with porting layer
@@ -305,6 +303,8 @@ SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_node.cp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_endpoint.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_cluster.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_attribute.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_command.cpp
+SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_callback.cpp
 SRC_CPP += $(SDKROOTDIR)/component/common/application/matter/core/matter_config.cpp
 #lib_version
 VER_C += $(TARGET)_version.c

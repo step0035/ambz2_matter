@@ -2,13 +2,14 @@
 #include "matter_events.h"
 #include "matter_interaction.h"
 
-#include <app-common/zap-generated/attribute-id.h>
+#include <app-common/zap-generated/ids/Clusters.h>
+#include <app-common/zap-generated/ids/Attributes.h>
 #include <app-common/zap-generated/attribute-type.h>
 #include <app-common/zap-generated/attributes/Accessors.h>
-#include <app-common/zap-generated/cluster-id.h>
 
 using namespace ::chip;
 using namespace ::chip::app;
+using namespace ::chip::app::Clusters;
 
 QueueHandle_t UplinkEventQueue;
 QueueHandle_t DownlinkEventQueue;
@@ -150,17 +151,17 @@ void MatterPostAttributeChangeCallback(const chip::app::ConcreteAttributePath & 
 
     switch (path.mClusterId)
     {
-    case ZCL_ON_OFF_CLUSTER_ID:
+    case OnOff::Id:
         uplink_event.mHandler = matter_driver_attribute_update;
         PostUplinkEvent(&uplink_event);
         break;
 
-    case ZCL_LEVEL_CONTROL_CLUSTER_ID:
+    case LevelControl::Id:
         uplink_event.mHandler = matter_driver_attribute_update;
         PostUplinkEvent(&uplink_event);
         break;
 
-    case ZCL_IDENTIFY_CLUSTER_ID:
+    case Identify::Id:
         uplink_event.mHandler = matter_driver_attribute_update;
         PostUplinkEvent(&uplink_event);
         break;
@@ -175,27 +176,27 @@ void matter_interaction_update_cluster(AppEvent * event)
 {
     switch (event->Type)
     {
-        case AppEvent::kEventType_Downlink_OnOff:
-            ChipLogProgress(DeviceLayer, "Writing to OnOff cluster");
-            // write the new on/off value
-            // TODO: we only support endpoint1
-            EmberAfStatus status = Clusters::OnOff::Attributes::OnOff::Set(1, matter_driver_led_get_onoff());
+    case AppEvent::kEventType_Downlink_OnOff:
+        ChipLogProgress(DeviceLayer, "Writing to OnOff cluster");
+        // write the new on/off value
+        // TODO: we only support endpoint1
+        EmberAfStatus status = Clusters::OnOff::Attributes::OnOff::Set(1, matter_driver_led_get_onoff());
 
-            if (status != EMBER_ZCL_STATUS_SUCCESS)
-            {
-                ChipLogError(DeviceLayer, "Updating on/off cluster failed: %x", status);
-            }
+        if (status != EMBER_ZCL_STATUS_SUCCESS)
+        {
+            ChipLogError(DeviceLayer, "Updating on/off cluster failed: %x", status);
+        }
 
-            ChipLogError(DeviceLayer, "Writing to Current Level cluster");
-            // write the new currentlevel value
-            // TODO: we only support endpoint1
-            status = Clusters::LevelControl::Attributes::CurrentLevel::Set(1, matter_driver_led_get_level());
+        ChipLogError(DeviceLayer, "Writing to Current Level cluster");
+        // write the new currentlevel value
+        // TODO: we only support endpoint1
+        status = Clusters::LevelControl::Attributes::CurrentLevel::Set(1, matter_driver_led_get_level());
 
-            if (status != EMBER_ZCL_STATUS_SUCCESS)
-            {
-                ChipLogError(DeviceLayer, "Updating level cluster failed: %x", status);
-            }
-            break;
+        if (status != EMBER_ZCL_STATUS_SUCCESS)
+        {
+            ChipLogError(DeviceLayer, "Updating level cluster failed: %x", status);
+        }
+        break;
 
     // TODO: Add more attribute changes
     }

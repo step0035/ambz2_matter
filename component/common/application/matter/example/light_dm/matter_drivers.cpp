@@ -3,12 +3,13 @@
 #include "led_driver.h"
 #include "gpio_irq_api.h"
 
-#include <app-common/zap-generated/attribute-id.h>
+#include <app-common/zap-generated/ids/Clusters.h>
+#include <app-common/zap-generated/ids/Attributes.h>
 #include <app-common/zap-generated/attribute-type.h>
 #include <app-common/zap-generated/attributes/Accessors.h>
-#include <app-common/zap-generated/cluster-id.h>
 
 using namespace ::chip::app;
+using namespace ::chip::app::Clusters;
 
 #define PWM_LED         PA_23
 #define GPIO_IRQ_PIN    PA_17
@@ -125,21 +126,21 @@ void matter_driver_attribute_update(AppEvent *aEvent)
 
     switch(path.mClusterId)
     {
-    case ZCL_ON_OFF_CLUSTER_ID:
-        if(path.mAttributeId == ZCL_ON_OFF_ATTRIBUTE_ID)
+    case OnOff::Id:
+        if(path.mAttributeId == OnOff::Attributes::OnOff::Id)
         {
             // led.Set(aEvent->value);
             matter_driver_led_set_onoff(aEvent->value);
         }
         break;
-    case ZCL_LEVEL_CONTROL_CLUSTER_ID:
-        if(path.mAttributeId == ZCL_CURRENT_LEVEL_ATTRIBUTE_ID)
+    case LevelControl::Id:
+        if(path.mAttributeId == LevelControl::Attributes::CurrentLevel::Id)
         {
             // led.SetBrightness(aEvent->value);
             matter_driver_led_set_brightness(aEvent->value);
         }
         break;
-    case ZCL_IDENTIFY_CLUSTER_ID:
+    case Identify::Id:
         break;
     }
 

@@ -88,6 +88,20 @@ void Endpoint::set_next(Endpoint *endpoint)
     next = endpoint;
 }
 
+Cluster *Endpoint::get_cluster_by_id(uint32_t cluster_id)
+{
+    Cluster *current_cluster = cluster_list;
+    while (current_cluster)
+    {
+        if (current_cluster->cluster_id == cluster_id)
+        {
+            break;
+        }
+        current_cluster = current_cluster->get_next();
+    }
+    return current_cluster;
+}
+
 void Endpoint::add_cluster(Cluster *cluster)
 {
     Cluster *previous_cluster = NULL;

@@ -126,6 +126,8 @@ private:
 };
 
 /* Clusters config */
+// TODO: add featuremap and commands
+
 typedef struct basic_information {
     bool enabled = false;
     bool server = true;

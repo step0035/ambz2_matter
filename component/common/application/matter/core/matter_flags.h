@@ -1,3 +1,7 @@
+#pragma once
+
+#include <app-common/zap-generated/att-storage.h>
+
 /** Endpoint flags */
 typedef enum endpoint_flags {
     /** No specific flags */

@@ -10,6 +10,7 @@ public:
     // Node(Callback attribute_callback, Callback identify_callback); // create
     // ~ Node(); // destroy
     void add_endpoint(Endpoint *endpoint);
+    Endpoint *get_endpoint_by_id(uint32_t endpoint_id);
     Endpoint *endpoint_list = NULL;
     uint16_t min_unused_endpoint_id = 0;
 
