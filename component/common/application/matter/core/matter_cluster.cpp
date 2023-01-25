@@ -202,6 +202,26 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id, uint16_t cluster_flags)
         add_command(on);
         Command *toggle = new Command(OnOff::Commands::Toggle::Id, COMMAND_FLAG_ACCEPTED, ameba_matter_command_callback_toggle);
         add_command(toggle);
+
+        if (on_off_config.featuremap & (uint32_t) OnOff::OnOffFeature::kLighting) 
+        {
+            //add extra attributes and commands
+            Attribute *global_scene_control = new Attribute(ameba_matter_bool(on_off_config.global_scene_control), OnOff::Attributes::GlobalSceneControl::Id, ATTRIBUTE_FLAG_NONE);
+            add_attribute(global_scene_control);
+            Attribute *on_time = new Attribute(ameba_matter_nullable_uint16(on_off_config.on_time), OnOff::Attributes::OnTime::Id, ATTRIBUTE_FLAG_WRITABLE | ATTRIBUTE_FLAG_NULLABLE);
+            add_attribute(on_time);
+            Attribute *off_wait_time = new Attribute(ameba_matter_nullable_uint16(on_off_config.off_wait_time), OnOff::Attributes::OffWaitTime::Id, ATTRIBUTE_FLAG_WRITABLE | ATTRIBUTE_FLAG_NULLABLE);
+            add_attribute(off_wait_time);
+            Attribute *start_up_on_off = new Attribute(ameba_matter_nullable_uint8(on_off_config.start_up_on_off), OnOff::Attributes::StartUpOnOff::Id, ATTRIBUTE_FLAG_WRITABLE | ATTRIBUTE_FLAG_NONVOLATILE | ATTRIBUTE_FLAG_NULLABLE);
+            add_attribute(start_up_on_off);
+
+            Command *off_with_effect = new Command(OnOff::Commands::OffWithEffect::Id, COMMAND_FLAG_ACCEPTED, ameba_matter_command_callback_off_with_effect);
+            add_command(off_with_effect);
+            Command *on_with_recall_global_scene = new Command(OnOff::Commands::OnWithRecallGlobalScene::Id, COMMAND_FLAG_ACCEPTED, ameba_matter_command_callback_on_with_recall_global_scene);
+            add_command(on_with_recall_global_scene);
+            Command *on_with_timed_off = new Command(OnOff::Commands::OnWithTimedOff::Id, COMMAND_FLAG_ACCEPTED, ameba_matter_command_callback_on_with_timed_off);
+            add_command(on_with_timed_off);
+        }
     }
 
     else if (_cluster_id == LevelControl::Id)
@@ -244,6 +264,22 @@ Cluster::Cluster(config_t config, uint32_t _cluster_id, uint16_t cluster_flags)
         add_command(step_with_on_off);
         Command *stop_with_on_off = new Command(LevelControl::Commands::StopWithOnOff::Id, COMMAND_FLAG_ACCEPTED, ameba_matter_command_callback_stop_with_on_off);
         add_command(stop_with_on_off);
+
+        if (level_control_config.featuremap & (uint32_t) LevelControl::LevelControlFeature::kOnOff) 
+        {
+            // no attributes & commands at the moment
+        }
+        if (level_control_config.featuremap & (uint32_t) LevelControl::LevelControlFeature::kLighting) 
+        {
+            Attribute *remaining_time = new Attribute(ameba_matter_uint16(level_control_config.remaining_time), LevelControl::Attributes::RemainingTime::Id, ATTRIBUTE_FLAG_NONE);
+            add_attribute(remaining_time);
+            Attribute *min_level = new Attribute(ameba_matter_uint8(level_control_config.min_level), LevelControl::Attributes::MinLevel::Id, ATTRIBUTE_FLAG_NONE);
+            add_attribute(min_level);
+            Attribute *max_level = new Attribute(ameba_matter_uint8(level_control_config.max_level), LevelControl::Attributes::MaxLevel::Id, ATTRIBUTE_FLAG_NONE);
+            add_attribute(max_level);
+            Attribute *start_up_current_level = new Attribute(ameba_matter_nullable_uint8(level_control_config.start_up_current_level), LevelControl::Attributes::StartUpCurrentLevel::Id, ATTRIBUTE_FLAG_WRITABLE | ATTRIBUTE_FLAG_NULLABLE | ATTRIBUTE_FLAG_NONVOLATILE);
+            add_attribute(max_level);
+        }
     }
 
     else if (_cluster_id == BasicInformation::Id)

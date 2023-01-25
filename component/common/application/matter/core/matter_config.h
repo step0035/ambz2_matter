@@ -130,6 +130,7 @@ private:
 
 typedef struct basic_information {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     char node_label[32];
@@ -138,6 +139,7 @@ typedef struct basic_information {
 
 typedef struct general_commissioning {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     uint64_t breadcrumb;
@@ -146,6 +148,7 @@ typedef struct general_commissioning {
 
 typedef struct network_commissioning {
     bool enabled = false;
+    uint32_t featuremap = 0; // wifi
     bool server = true;
     uint16_t cluster_revision;
     network_commissioning() : cluster_revision(1) {}
@@ -153,6 +156,7 @@ typedef struct network_commissioning {
 
 typedef struct general_diagnostics {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     general_diagnostics() : cluster_revision(1) {}
@@ -160,6 +164,7 @@ typedef struct general_diagnostics {
 
 typedef struct administrator_commissioning {
     bool enabled = false;
+    uint32_t featuremap = 1; // support basic commissioning
     bool server = true;
     uint16_t cluster_revision;
     administrator_commissioning() : cluster_revision(1) {}
@@ -167,6 +172,7 @@ typedef struct administrator_commissioning {
 
 typedef struct operational_credentials {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     operational_credentials() : cluster_revision(1) {}
@@ -174,6 +180,7 @@ typedef struct operational_credentials {
 
 typedef struct diagnostics_network_thread {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     diagnostics_network_thread() : cluster_revision(1) {}
@@ -181,6 +188,7 @@ typedef struct diagnostics_network_thread {
 
 typedef struct diagnostics_network_wifi {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     diagnostics_network_wifi() : cluster_revision(1) {}
@@ -188,6 +196,7 @@ typedef struct diagnostics_network_wifi {
 
 typedef struct identify {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     uint16_t identify_time;
@@ -197,6 +206,7 @@ typedef struct identify {
 
 typedef struct groups {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     uint8_t group_name_support;
@@ -205,6 +215,7 @@ typedef struct groups {
 
 typedef struct scenes {
     bool enabled = false;
+    uint32_t featuremap = 0;
     bool server = true;
     uint16_t cluster_revision;
     uint8_t scene_count;
@@ -217,22 +228,30 @@ typedef struct scenes {
 
 typedef struct on_off {
     bool enabled = false;
+    uint32_t featuremap = 1; // lighting
     bool server = true;
     uint16_t cluster_revision;
     bool onoff;
-    // feature::lighting::config_t lighting;
-    on_off() : cluster_revision(4), onoff(false) {}
+    bool global_scene_control;
+    uint16_t on_time;
+    uint16_t off_wait_time;
+    uint8_t start_up_on_off;
+    on_off() : cluster_revision(4), onoff(false), global_scene_control(true), on_time(0), off_wait_time(0), start_up_on_off(0xFF) {}
 }on_off_t;
 
 typedef struct level_control {
     bool enabled = false;
+    uint32_t featuremap = 3; // onoff, lighting
     bool server = true;
     uint16_t cluster_revision;
     nullable<uint8_t> current_level;
     nullable<uint8_t> on_level;
     uint8_t options;
-    // feature::lighting::config_t lighting;
-    level_control() : cluster_revision(5), current_level(0xFE), on_level(0xFE), options(0) {}
+    uint16_t remaining_time;
+    uint8_t min_level;
+    uint8_t max_level;
+    uint8_t start_up_current_level;
+    level_control() : cluster_revision(5), current_level(0xFE), on_level(0xFE), options(0), remaining_time(0), min_level(1), max_level(0xFE), start_up_current_level(255) {}
 } level_control_t;
 
 /* Endpoint configs */

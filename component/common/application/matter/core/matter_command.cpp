@@ -32,25 +32,6 @@ void DispatchSingleClusterCommandCommon(const ConcreteCommandPath &command_path,
         EmberAfStatus status = (err == 0) ? EMBER_ZCL_STATUS_SUCCESS : EMBER_ZCL_STATUS_FAILURE;
         emberAfSendImmediateDefaultResponse(status);
     }
-
-    // node_t *node = node::get();
-    // endpoint_t *endpoint = endpoint::get(node, endpoint_id);
-    // cluster_t *cluster = cluster::get(endpoint, cluster_id);
-    // command_t *command = get(cluster, command_id, COMMAND_FLAG_ACCEPTED);
-    // if (!command) {
-    //     ESP_LOGE(TAG, "Command 0x%04X not found", command_id);
-    //     return;
-    // }
-    // esp_err_t err = ESP_OK;
-    // callback_t callback = get_callback(command);
-    // if (callback) {
-    //     err = callback(command_path, tlv_data, opaque_ptr);
-    // }
-    // int flags = get_flags(command);
-    // if (flags & COMMAND_FLAG_CUSTOM) {
-    //     EmberAfStatus status = (err == ESP_OK) ? EMBER_ZCL_STATUS_SUCCESS : EMBER_ZCL_STATUS_FAILURE;
-    //     emberAfSendImmediateDefaultResponse(status);
-    // }
 }
 
 namespace chip {
