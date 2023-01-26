@@ -10,8 +10,25 @@ extern "C" {
 #endif
 
 #include <wifi_conf.h>
+/*
+   module size is 4k, we set max module number as 12;
+   if backup enabled, the total module number is 12 + 1*12 = 24, the size is 96k;
+   if wear leveling enabled, the total module number is 12 + 2*12 + 3*12 = 36, the size is 288k"
+*/
+#define DCT_BEGIN_ADDR_MATTER   DCT_BEGIN_ADDR    /*!< DCT begin address of flash, ex: 0x100000 = 1M */
+#define MODULE_NUM              13                /*!< max number of module */
+#define VARIABLE_NAME_SIZE      32                /*!< max size of the variable name */
+#define VARIABLE_VALUE_SIZE     64 + 4          /*!< max size of the variable value */
+                                                  /*!< max value number in moudle = 4024 / (32 + 1860+4) = 2 */
 
-// for AmebaConfig
+#define DCT_BEGIN_ADDR_MATTER2  DCT_BEGIN_ADDR2
+#define MODULE_NUM2             6 
+#define VARIABLE_NAME_SIZE2     32
+#define VARIABLE_VALUE_SIZE2    400 + 4
+
+#define ENABLE_BACKUP           0
+#define ENABLE_WEAR_LEVELING    0
+
 s32 initPref(void);
 s32 deinitPref(void);
 s32 registerPref(void);

@@ -9,71 +9,71 @@ Endpoint::Endpoint(config_t config, uint16_t endpoint_flags)
 
     if (config.identify.enabled)
     {
-        Cluster *identify = new Cluster(config, Identify::Id, (config.identify.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *identify = new Cluster(config, Identify::Id, endpoint_id, (config.identify.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(identify);
     }
     if (config.groups.enabled)
     {
-        Cluster *groups = new Cluster(config, Groups::Id, (config.groups.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *groups = new Cluster(config, Groups::Id, endpoint_id, (config.groups.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(groups);
     }
     if (config.scenes.enabled)
     {
-        Cluster *scenes = new Cluster(config, Scenes::Id, (config.scenes.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *scenes = new Cluster(config, Scenes::Id, endpoint_id, (config.scenes.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(scenes);
     }
     if (config.on_off.enabled)
     {
-        Cluster *on_off = new Cluster(config, OnOff::Id, (config.on_off.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *on_off = new Cluster(config, OnOff::Id, endpoint_id, (config.on_off.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(on_off);
     }
     if (config.level_control.enabled)
     {
-        Cluster *level_control = new Cluster(config, LevelControl::Id, (config.level_control.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *level_control = new Cluster(config, LevelControl::Id, endpoint_id, (config.level_control.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(level_control);
     }
     if (config.basic_information.enabled)
     {
-        Cluster *basic_information = new Cluster(config, BasicInformation::Id, (config.basic_information.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *basic_information = new Cluster(config, BasicInformation::Id, endpoint_id, (config.basic_information.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(basic_information);
     }
     if (config.general_commissioning.enabled)
     {
-        Cluster *general_commissioning = new Cluster(config, GeneralCommissioning::Id, (config.general_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *general_commissioning = new Cluster(config, GeneralCommissioning::Id, endpoint_id, (config.general_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(general_commissioning);
     }
     if (config.network_commissioning.enabled)
     {
-        Cluster *network_commissioning = new Cluster(config, NetworkCommissioning::Id, (config.network_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *network_commissioning = new Cluster(config, NetworkCommissioning::Id, endpoint_id, (config.network_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(network_commissioning);
     }
     if (config.general_diagnostics.enabled)
     {
-        Cluster *general_diagnostics = new Cluster(config, GeneralDiagnostics::Id, (config.general_diagnostics.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *general_diagnostics = new Cluster(config, GeneralDiagnostics::Id, endpoint_id, (config.general_diagnostics.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(general_diagnostics);
     }
 #if 0 // thread enabled
     if (config.diagnostics_network_thread.enabled)
     {
-        Cluster *diagnostics_network_thread = new Cluster(config, ThreadNetworkDiagnostics::Id, (config.diagnostics_network_thread.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *diagnostics_network_thread = new Cluster(config, ThreadNetworkDiagnostics::Id, endpoint_id, (config.diagnostics_network_thread.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(diagnostics_network_thread);
     }
 #endif
 #if 1 // wifi enabled
     if (config.diagnostics_network_wifi.enabled)
     {
-        Cluster *diagnostics_network_wifi = new Cluster(config, WiFiNetworkDiagnostics::Id, (config.diagnostics_network_wifi.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *diagnostics_network_wifi = new Cluster(config, WiFiNetworkDiagnostics::Id, endpoint_id, (config.diagnostics_network_wifi.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(diagnostics_network_wifi);
     }
 #endif
     if (config.administrator_commissioning.enabled)
     {
-        Cluster *administrator_commissioning = new Cluster(config, AdministratorCommissioning::Id, (config.administrator_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *administrator_commissioning = new Cluster(config, AdministratorCommissioning::Id, endpoint_id, (config.administrator_commissioning.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(administrator_commissioning);
     }
     if (config.operational_credentials.enabled)
     {
-        Cluster *operational_credentials = new Cluster(config, OperationalCredentials::Id, (config.operational_credentials.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
+        Cluster *operational_credentials = new Cluster(config, OperationalCredentials::Id, endpoint_id, (config.operational_credentials.server) ? CLUSTER_FLAG_SERVER : CLUSTER_FLAG_CLIENT);
         add_cluster(operational_credentials);
     }
 }
@@ -125,7 +125,7 @@ int8_t Endpoint::add_device_type(uint32_t device_type_id, uint8_t device_type_ve
 {
     if (device_type_count >= AMEBA_MATTER_MAX_DEVICE_TYPE_COUNT)
     {
-        printf("Max device type count reached\n");
+        printf("Max device type count reached, failed to add device type: %d\n", device_type_id);
         return -1;
     }
 

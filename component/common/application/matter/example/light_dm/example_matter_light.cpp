@@ -14,6 +14,9 @@
 #include "matter_node.h"
 #include "matter_flags.h"
 
+Node *node;
+
+// move this to matter_config
 void configure_endpoint_config(uint16_t device_type, config_t *config)
 {
     switch (device_type)
@@ -58,6 +61,8 @@ static void example_matter_light_task(void *pvParameters)
         //waiting for Wifi to be initialized
     }
 
+    printf("\nLighting-app Example\n");
+
     // CHIP_ERROR err = CHIP_NO_ERROR;
 
     initPref();     // init NVS
@@ -88,31 +93,25 @@ static void example_matter_light_task(void *pvParameters)
 
     // while(1);
 
-    while(!(wifi_is_up(RTW_STA_INTERFACE) || wifi_is_up(RTW_AP_INTERFACE))) {
-        //waiting for Wifi to be initialized
-    }
-
-    printf("\nLighting-app Example\n");
-
     /* Node creation */
-    Node *node = new Node;
+    node = new Node;
 
     /* Endpoint creation */
     config_t root_node_config;
     configure_endpoint_config(AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID, &root_node_config);
     Endpoint *root_node = new Endpoint(root_node_config, ENDPOINT_FLAG_NONE);
-    if (root_node->add_device_type(AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID, AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_VERSION) != 0)
+    if (root_node->add_device_type(AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID, AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_VERSION) == 0)
     {
-        printf("Failed to add device type\n");
+        printf("Successfully added add device type: %d\n", AMEBA_MATTER_ROOT_NODE_DEVICE_TYPE_ID);
     }
 
     config_t light_config;
     configure_endpoint_config(AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID, &light_config);
     light_config.on_off.onoff = true;
     Endpoint *on_off_light = new Endpoint(light_config, ENDPOINT_FLAG_NONE);
-    if (on_off_light->add_device_type(AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID, AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_VERSION) != 0)
+    if (on_off_light->add_device_type(AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID, AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_VERSION) == 0)
     {
-        printf("Failed to add device type\n");
+        printf("Successfully added add device type: %d\n", AMEBA_MATTER_ON_OFF_LIGHT_DEVICE_TYPE_ID);
     }
 
     /* Add endpoints */
@@ -133,6 +132,12 @@ static void example_matter_light_task(void *pvParameters)
             {
                 printf("\t\tAttribute ID: %d\n", test_attribute->attribute_id);
                 test_attribute = test_attribute->get_next();
+            }
+            Command *test_command = test_cluster->command_list;
+            while(test_command)
+            {
+                printf("\t\tCommand ID: %d\n", test_command->command_id);
+                test_command = test_command->get_next();
             }
             test_cluster = test_cluster->get_next();
         }

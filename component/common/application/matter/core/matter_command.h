@@ -12,11 +12,13 @@ class Command
 {
 public:
     // TODO: add callback
-    Command(uint32_t command_id, uint16_t command_flags, callback_t command_callback);
+    Command(uint32_t _command_id, uint32_t _cluster_id, uint32_t _endpoint_id, uint16_t command_flags, callback_t command_callback);
     ~ Command();
-    uint32_t id;
+    uint32_t endpoint_id;
+    uint32_t cluster_id;
+    uint32_t command_id;
     uint16_t flags;
-    Command *next;
+    Command *next = NULL;
     Command *get_next(void);
     void set_next(Command *command);
     callback_t callback;

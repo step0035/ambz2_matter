@@ -51,12 +51,13 @@ void DispatchSingleClusterCommand(const ConcreteCommandPath &command_path, TLVRe
 } /* namespace chip */
 
 
-Command::Command(uint32_t command_id, uint16_t command_flags, callback_t command_callback)
+Command::Command(uint32_t _command_id, uint32_t _cluster_id, uint32_t _endpoint_id, uint16_t command_flags, callback_t command_callback)
 {
-    id = command_id;
+    endpoint_id = _endpoint_id;
+    cluster_id = _cluster_id;
+    command_id = _command_id;
     flags = command_flags;
     callback = command_callback;
-
 }
 
 Command *Command::get_next(void)

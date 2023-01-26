@@ -30,7 +30,7 @@ public:
     void add_cluster(Cluster *cluster);
     int8_t add_device_type(uint32_t device_type_id, uint8_t device_type_version);
     uint16_t endpoint_id;
-    uint8_t device_type_count;
+    uint8_t device_type_count = 0;
     uint32_t device_type_ids[16];
     uint32_t device_type_versions[16];
     uint16_t flags;

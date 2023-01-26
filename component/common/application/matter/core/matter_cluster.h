@@ -12,7 +12,7 @@ void plugin_init_callback_common(void);
 class Cluster
 {
 public:
-    Cluster(config_t config, uint32_t _cluster_id, uint16_t cluster_flags); // create
+    Cluster(config_t config, uint32_t _cluster_id, uint32_t _endpoint_id, uint16_t cluster_flags); // create
     // ~ Cluster(); // destroy
     Cluster *get_next(void);
     void set_next(Cluster *cluster);
@@ -20,6 +20,7 @@ public:
     Command *get_command_by_id(uint32_t command_id, uint16_t command_flags);
     void add_attribute(Attribute *attribute);
     void add_command(Command *command);
+    uint32_t endpoint_id;
     uint32_t cluster_id;
     Cluster *next = NULL;
     Attribute *attribute_list = NULL;
